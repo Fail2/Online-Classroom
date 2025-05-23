@@ -41,7 +41,7 @@ class CourseFileViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.request.method in SAFE_METHODS: 
             # GET, HEAD,OPTIONS - for students
-            return [IsAuthenticated(), IsEnrolledStudent()]
+            return [IsAuthenticated(), IsEnrolledStudent]
         else:
             # POST,PUT,DELETE -for teachers
             return [IsAuthenticated(), IsCourseTeacher()]

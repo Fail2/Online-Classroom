@@ -13,11 +13,11 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ['partial_update','update','destroy']:
-            return [IsCourseTeacher()]  # 👈 Instantiating the permission
+            return [IsCourseTeacher()]
         elif self.action =='create':
             return [IsTeacher()]
         elif self.action == 'retrieve':
-            return [IsEnrolledStudent()]
+            return [IsEnrolledStudent]
         return []
 
 
@@ -40,22 +40,17 @@ class CourseFileViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.request.method in SAFE_METHODS: 
-            # GET, HEAD,OPTIONS - for students
-            return [IsAuthenticated(), IsEnrolledStudent()]
+            return [IsAuthenticated(), IsEnrolledStudent]
         else:
-            # POST,PUT,DELETE -for teachers
             return [IsAuthenticated(), IsCourseTeacher()]
         
     def get_queryset(self):
         user = self.request.user
         if user.role == 'TEACHER':
-            #show only teacher's course file
-            #SELECT * FROM course_file JOIN course ON course_file.course_id = course.id WHERE course.teacher_id = {user.id};
             return CourseFile.objects.filter(course__teacher=user)
         elif user.role == 'STUDENT':
             #show only course files of enrolled courses
-            # SELECT cf.* FROM course_file cf JOIN course c ON cf.course_id = c.id JOIN enrollment e  ON e.course_id  = c.id WHERE e.student_id = {user.id};
-            return CourseFile.objects.filter(course__enrollment__student= user)
+            return CourseFile.objects.filter(course__enrollment__teacher= user)
         else: return CourseFile.object.none() #no access for others
 
 

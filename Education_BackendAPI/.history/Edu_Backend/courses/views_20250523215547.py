@@ -13,11 +13,11 @@ class CourseViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ['partial_update','update','destroy']:
-            return [IsCourseTeacher()]  # 👈 Instantiating the permission
+            return [IsCourseTeacher()]
         elif self.action =='create':
             return [IsTeacher()]
         elif self.action == 'retrieve':
-            return [IsEnrolledStudent()]
+            return [IsEnrolledStudent]
         return []
 
 
@@ -41,7 +41,7 @@ class CourseFileViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.request.method in SAFE_METHODS: 
             # GET, HEAD,OPTIONS - for students
-            return [IsAuthenticated(), IsEnrolledStudent()]
+            return [IsAuthenticated(), IsEnrolledStudent]
         else:
             # POST,PUT,DELETE -for teachers
             return [IsAuthenticated(), IsCourseTeacher()]

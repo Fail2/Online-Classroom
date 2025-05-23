@@ -7,4 +7,4 @@ class IsCourseTeacher(BasePermission):
     
 class IsEnrolledStudent(BasePermission):
     def has_object_permission(self, request, view,obj):
-        return obj.enrollment_set.filter(student=request.user).exists()#in this obj = specific course, for this we are using reverse manager(enrollment_set) directly on instance
+        return obj.enrollment_set.filter(student=request.user).exists()#in this obj = specific course for this we are using reverse manager(enrollment_set) directly on instance

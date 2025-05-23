@@ -30,7 +30,7 @@ class CourseFileSerializer(serializers.ModelSerializer):
         read_only_fields = ['uploaded_at']
 
     def validate_course(self, value):
-        if self.context['request'].user != value.teacher:
+        if self.context['request'].user!= value.teacher:
             raise serializers.ValidationError("You can only add files to your own courses")
         return value   
 

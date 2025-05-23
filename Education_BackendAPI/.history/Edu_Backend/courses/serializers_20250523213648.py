@@ -11,7 +11,6 @@ class EnrollmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Enrollment
         fields = '__all__'
-        read_only_fields = ['enrolled_at']
 
     def validate(self, data):
         student = data['student']
@@ -30,7 +29,7 @@ class CourseFileSerializer(serializers.ModelSerializer):
         read_only_fields = ['uploaded_at']
 
     def validate_course(self, value):
-        if self.context['request'].user != value.teacher:
+        if self.context['request'].user!= value.teacher:
             raise serializers.ValidationError("You can only add files to your own courses")
         return value   
 
