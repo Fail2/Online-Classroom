@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Admin Panel{% endblock %}</title>
+    
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            border-bottom: 1px solid #e2e8f0;
+            flex-wrap: wrap;
+        }
+
+        .navbar-left .brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .navbar-center {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .navbar-center a {
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-center a:hover {
+            color: #2563eb;
+        }
+
+        .navbar-center a.active {
+            color: #2563eb;
+        }
+
+        .navbar-right form {
+            margin: 0;
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background-color: #ef4444;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #dc2626;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .navbar-center {
+                flex-direction: column;
+                gap: 0.75rem;
+                width: 100%;
+            }
+
+            .navbar-right {
+                width: 100%;
+                text-align: left;
+            }
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="{% url 'admin-dashboard' %}" class="brand">EduAdmin</a>
+        </div>
+        <div class="navbar-center">
+            <a href="{% url 'teacher-list' %}" class="{% if request.resolver_match.url_name == 'teacher-list' %}active{% endif %}">Teachers</a>
+            <a href="{% url 'student-list' %}" class="{% if request.resolver_match.url_name == 'student-list' %}active{% endif %}">Students</a>
+            <a href="{% url 'course-list' %}" class="{% if request.resolver_match.url_name == 'course-list' %}active{% endif %}">Courses</a>
+        </div>
+        <div class="navbar-right">
+            <form action="{% url 'admin-logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% block extra_script %}{% endblock %}
+</body>
+</html>

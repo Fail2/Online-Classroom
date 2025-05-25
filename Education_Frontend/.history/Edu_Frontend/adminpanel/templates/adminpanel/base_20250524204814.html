@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        .navbar {
+            background-color: #1f2937;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #60a5fa;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            margin-bottom: 1rem;
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background-color: #ef4444;
+            border: none;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #dc2626;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: flex-start;
+                margin-top: 1rem;
+            }
+
+            .nav-links a {
+                margin-left: 0;
+                margin-top: 0.5rem;
+            }
+        }
+
+        /* Page-specific CSS here */
+        
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="brand">
+            <a href="{% url 'admin-dashboard' %}"><strong>Admin Panel</strong></a>
+        </div>
+        <div class="nav-links">
+            <a href="{% url 'teacher-list' %}">Teachers</a>
+            <a href="{% url 'student-list' %}">Students</a>
+            <a href="{% url 'course-list' %}">Courses</a>
+            <form action="{% url 'admin-logout' %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% block extra_script %}{% endblock %}
+
+</body>
+</html>

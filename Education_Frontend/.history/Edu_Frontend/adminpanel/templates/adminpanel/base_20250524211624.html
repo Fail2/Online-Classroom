@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+    <style>
+        /* Reset some default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8fafc;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .navbar-left h1 {
+            color: #2563eb;
+            font-size: 1.5rem;
+        }
+
+        .navbar-center a {
+            margin: 0 1rem;
+            text-decoration: none;
+            color: #1e293b;
+            font-weight: 500;
+            padding-bottom: 4px;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-center a:hover {
+            color: #2563eb;
+            border-color: #93c5fd;
+            text-decoration: none;
+        }
+
+        .navbar-center a.active {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+            text-decoration: none;
+        }
+
+        .navbar-right a {
+            text-decoration: none;
+            color: #1e293b;
+            background-color: #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar-right a:hover {
+            background-color: #cbd5e1;
+            color: #2563eb;
+        }
+
+        /* Content area */
+        .content {
+            padding: 2rem;
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="navbar-left">
+            <h1>EduAdmin</h1>
+        </div>
+        <div class="navbar-center">
+            <a href="{% url 'teacher-list' %}">Teachers</a>
+            <a href="{% url 'student-list' %}">Students</a>
+            <a href="{% url 'course-list' %}">Courses</a>
+        </div>
+        <div class="navbar-right">
+            <a href="{% url 'admin-logout' %}">Logout</a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% block extra_script %}{% endblock %}
+</body>
+</html>
