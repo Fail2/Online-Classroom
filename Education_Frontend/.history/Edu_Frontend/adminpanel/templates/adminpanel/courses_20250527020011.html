@@ -1,0 +1,67 @@
+{% extends "adminpanel/base.html" %}
+
+{% block title %}Courses List - EduAdmin{% endblock %}
+
+{% block extra_css %}
+<style>
+    .course-card {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+        transition: box-shadow 0.3s ease;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .course-card:hover {
+        box-shadow: 0 6px 15px rgb(0 0 0 / 0.15);
+    }
+    .course-info {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #1e293b;
+    }
+    .course-title {
+        font-weight: 700;
+        margin-right: 1rem;
+    }
+    .teacher-name {
+        font-style: italic;
+        color: #64748b;
+    }
+    .enrolled-count {
+        background-color: #f59e0b; /* amber/orange */
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        min-width: 50px;
+        text-align: center;
+        user-select: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>Courses</h1>
+    
+    {% if courses %}
+        {% for course in courses %}
+        <div class="course-card">
+            <div class="course-info">
+                <span class="course-title">{{ course.title }}</span>
+                <span class="teacher-name">by {{course.teacher.username }}</span>
+            </div>
+            <div class="enrolled-count" title="Total Enrolled Students">
+                {{ course.enrolled_students.count }}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>No courses found.</p>
+    {% endif %}
+{% endblock %}

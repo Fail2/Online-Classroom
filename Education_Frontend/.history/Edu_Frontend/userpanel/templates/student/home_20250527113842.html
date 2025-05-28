@@ -1,0 +1,113 @@
+{% extends 'student/base.html' %}
+
+{% block title %}Student Home{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #1e40af;
+        font-size: 2rem;
+        font-weight: 600;
+    }
+
+    .course-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .course-card {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .course-title {
+        font-size: 1.25rem;
+        font-weight: bold;
+        color: #0f172a;
+        margin-bottom: 0.5rem;
+    }
+
+    .course-description {
+        color: #475569;
+        font-size: 0.95rem;
+        margin-bottom: 1rem;
+        line-height: 1.5;
+    }
+
+    .teacher-name {
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: #334155;
+        margin-bottom: 1rem;
+    }
+
+    .enroll-btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 5px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .enroll-btn.enrolled {
+        background-color: #10b981; /* Green */
+        color: white;
+        cursor: default;
+    }
+
+    .enroll-btn.not-enrolled {
+        background-color: #3b82f6; /* Blue */
+        color: white;
+    }
+
+    .enroll-btn.not-enrolled:hover {
+        background-color: #2563eb;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <h2 class="page-header">All Available Courses</h2>
+
+    {% if courses %}
+        <div class="course-grid">
+            {% for course in courses %}
+                <div class="course-card">
+                    <div>
+                        <div class="course-title">{{ course.title }}</div>
+                        <div class="course-description">{{ course.description }}</div>
+                        <div class="teacher-name">Instructor: {{ course.teacher_name }}</div>
+                    </div>
+
+                    {% if course.is_enrolled %}
+                        <button class="enroll-btn enrolled" disabled>Enrolled</button>
+                    {% else %}
+                        <form method="POST" action="{% url 'student-enroll-course' course.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="enroll-btn not-enrolled">Enroll</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No courses available at the moment.</p>
+    {% endif %}
+{% endblock %}

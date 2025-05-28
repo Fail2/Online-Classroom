@@ -1,0 +1,73 @@
+{% extends 'student/base.html' %}
+
+{% block title %}My Enrolled Courses{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #0f172a;
+        font-size: 2rem;
+        font-weight: 600;
+    }
+
+    .enrolled-courses {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .course-card {
+        background: #f9fafb;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        padding: 1.25rem;
+        transition: all 0.3s ease-in-out;
+        text-decoration: none;
+        color: inherit;
+    }
+
+    .course-card:hover {
+        transform: translateY(-5px);
+        background-color: #f3f4f6;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .course-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+        color: #1e40af;
+    }
+
+    .course-description {
+        font-size: 0.95rem;
+        color: #374151;
+    }
+
+    .teacher-name {
+        margin-top: 0.75rem;
+        font-size: 0.9rem;
+        color: #6b7280;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    <h2 class="page-header">My Enrolled Courses</h2>
+
+    {% if courses %}
+        <div class="enrolled-courses">
+            {% for course in courses %}
+                <a href="#" class="course-card">
+                    <div class="course-title">{{ course.title }}</div>
+                    <div class="course-description">{{ course.description|truncatechars:100 }}</div>
+                    <div class="teacher-name">Instructor: {{ course.teacher_name }}</div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You are not enrolled in any courses yet.</p>
+    {% endif %}
+{% endblock %}

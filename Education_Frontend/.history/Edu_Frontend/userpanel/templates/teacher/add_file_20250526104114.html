@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Upload New File</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="title" class="form-label">File Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="Enter file title" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="file" class="form-label">Select File</label>
+            <input type="file" class="form-control" id="file" name="file" required>
+        </div>
+
+        <!-- Hidden course ID -->
+        <input type="hidden" name="course" value="{{ course_id }}">
+
+        <button type="submit" class="btn btn-primary">Upload</button>
+        <a href="{% url 'course-detail' course_id %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

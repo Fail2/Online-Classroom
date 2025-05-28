@@ -1,0 +1,94 @@
+{% extends 'student/base.html' %}
+
+{% block title %}Course Files{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2rem;
+        font-weight: 700;
+        color: #1e40af;
+    }
+
+    .file-container {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .file-card {
+        background-color: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 10px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .file-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .file-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .file-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #0f172a;
+        margin-bottom: 0.3rem;
+    }
+
+    .uploaded-time {
+        color: #64748b;
+        font-size: 0.85rem;
+    }
+
+    .download-btn {
+        background-color: #10b981;
+        color: white;
+        padding: 0.5rem 1.2rem;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .download-btn:hover {
+        background-color: #059669;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h2 class="page-header">{{ course_title }} - Files</h2>
+
+{% if files %}
+<div class="file-container">
+    {% for file in files %}
+    <div class="file-card">
+        <div class="file-info">
+            <div class="file-title">{{ file.title }}</div>
+            <div class="uploaded-time">Uploaded on: {{ file.uploaded_at|date:"F j, Y, g:i a" }}</div>
+        </div>
+        <a href="{{file.file}}" download="{{file.file}}" class="download-btn">Download</a>
+        <a href="{{ file.file }}" download class="download-btn">View</a>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p style="text-align: center;">No files available for this course.</p>
+{% endif %}
+{% endblock %}
